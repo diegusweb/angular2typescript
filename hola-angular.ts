@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Component } from '@angular/platform-browser-dynamic';
+import { bootstrap } from '@angular/platform-browser-dynamic';
 
 @Component({
   selector: 'hola-angular',
@@ -8,4 +8,9 @@ import { Component } from '@angular/platform-browser-dynamic';
 
 class HolaAngularComponent{
   saludo: string;
+  constructor(){
+    this.saludo = 'Hola Mundo Angular2';
+  }
 }
+
+bootstrap(HolaAngularComponent); //COmponente es bootstrap
