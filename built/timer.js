@@ -11,7 +11,7 @@ System.register(['@angular/core', '@angular/platform-browser-dynamic'], function
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, platform_browser_dynamic_1;
-    var TimeComponent;
+    var TimerComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -21,45 +21,45 @@ System.register(['@angular/core', '@angular/platform-browser-dynamic'], function
                 platform_browser_dynamic_1 = platform_browser_dynamic_1_1;
             }],
         execute: function() {
-            TimeComponent = (function () {
-                function TimeComponent() {
+            TimerComponent = (function () {
+                function TimerComponent() {
                     var _this = this;
-                    this.resetTest();
+                    this.resetTimer();
                     setInterval(function () { return _this.tick(); }, 1000);
                 }
-                TimeComponent.prototype.resetTest = function () {
+                TimerComponent.prototype.resetTimer = function () {
+                    this.isPaused = true;
                     this.minutos = 24;
                     this.segundos = 59;
-                    this.buttonLabel = "Empezar";
-                    this.togglePause();
+                    this.buttonLabel = 'Empezar';
                 };
-                TimeComponent.prototype.tick = function () {
+                TimerComponent.prototype.tick = function () {
                     if (!this.isPaused) {
-                        this.buttonLabel = 'Detener';
-                    }
-                    if (--this.segundos < 0) {
-                        this.segundos = 59;
-                        if (--this.minutos < 0) {
-                            this.resetTest();
+                        this.buttonLabel = 'Pausar';
+                        if (--this.segundos < 0) {
+                            this.segundos = 59;
+                            if (--this.minutos < 0) {
+                                this.resetTimer();
+                            }
                         }
                     }
                 };
-                TimeComponent.prototype.togglePause = function () {
+                TimerComponent.prototype.togglePause = function () {
                     this.isPaused = !this.isPaused;
                     if (this.minutos < 24 || this.segundos < 59) {
-                        this.buttonLabel = this.isPaused ? 'Reanudar' : 'Detener';
+                        this.buttonLabel = this.isPaused ? 'Reanudar' : 'Pausar';
                     }
                 };
-                TimeComponent = __decorate([
+                TimerComponent = __decorate([
                     core_1.Component({
                         selector: 'timer',
-                        template: "<h1>{{minutos}}:{{segundos | number: '2.0' }} </h1> <p><button (click)='togglePause()'>{{buttonLabel}}</button></p>"
+                        template: "\n    <div class=\"text-center\">\n      <img src=\"assets/img/reloj.png\" alt=\"Reloj\">\n      <h1> {{ minutos }}:{{ segundos | number: '2.0' }} </h1>\n      <p>\n        <button (click)=\"togglePause()\"\n          class=\"btn btn-info\">\n          {{ buttonLabel }}\n        </button>\n      </p>\n    </div>\n"
                     }), 
                     __metadata('design:paramtypes', [])
-                ], TimeComponent);
-                return TimeComponent;
+                ], TimerComponent);
+                return TimerComponent;
             }());
-            platform_browser_dynamic_1.bootstrap(TimeComponent);
+            platform_browser_dynamic_1.bootstrap(TimerComponent);
         }
     }
 });

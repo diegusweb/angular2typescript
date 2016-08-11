@@ -2,47 +2,59 @@ import { Component } from '@angular/core';
 import { bootstrap } from '@angular/platform-browser-dynamic';
 
 @Component({
-  selector:'timer',
-  template:"<h1>{{minutos}}:{{segundos | number: '2.0' }} </h1> <p><button (click)='togglePause()'>{{buttonLabel}}</button></p>"
+  selector: 'timer',
+  template: `
+    <div class="text-center">
+      <img src="assets/img/reloj.png" alt="Reloj">
+      <h1> {{ minutos }}:{{ segundos | number: '2.0' }} </h1>
+      <p>
+        <button (click)="togglePause()"
+          class="btn btn-info">
+          {{ buttonLabel }}
+        </button>
+      </p>
+    </div>
+`
 })
-class TimeComponent{
-  minutos: number;
-  segundos : number;
-  isPaused:boolean;
-  buttonLabel:string;
 
-  constructor(){
-    this.resetTest();
+
+class TimerComponent {
+  minutos: number;
+  segundos: number;
+  isPaused: boolean;
+  buttonLabel: string;
+
+  constructor() {
+    this.resetTimer();
     setInterval(() => this.tick(), 1000);
   }
 
-  resetTest(): void{
+  resetTimer(): void {
+    this.isPaused = true;
     this.minutos = 24;
     this.segundos = 59;
-    this.buttonLabel = "Empezar";
-    this.togglePause();
+    this.buttonLabel = 'Empezar';
   }
 
-  private tick():void{
-    if(!this.isPaused){
-      this.buttonLabel = 'Detener';
-    }
+  private tick(): void {
+    if (!this.isPaused) {
+      this.buttonLabel = 'Pausar';
 
-    if(--this.segundos < 0){
-      this.segundos = 59;
-      if(--this.minutos < 0){
-        this.resetTest();
+      if (--this.segundos < 0) {
+        this.segundos = 59;
+        if (--this.minutos < 0) {
+          this.resetTimer();
+        }
       }
     }
   }
 
-  togglePause():void{
+  togglePause(): void {
     this.isPaused = !this.isPaused;
-    if(this.minutos < 24 || this.segundos < 59){
-      this.buttonLabel = this.isPaused ? 'Reanudar' : 'Detener';
+    if (this.minutos < 24 || this.segundos < 59) {
+      this.buttonLabel = this.isPaused ? 'Reanudar' : 'Pausar';
     }
   }
-
 }
 
-bootstrap(TimeComponent);
+bootstrap(TimerComponent);
