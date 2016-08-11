@@ -23,13 +23,37 @@ System.register(['@angular/core', '@angular/platform-browser-dynamic'], function
         execute: function() {
             TimeComponent = (function () {
                 function TimeComponent() {
+                    var _this = this;
+                    this.resetTest();
+                    setInterval(function () { return _this.tick(); }, 1000);
+                }
+                TimeComponent.prototype.resetTest = function () {
                     this.minutos = 24;
                     this.segundos = 59;
-                }
+                    this.buttonLabel = "Empezar";
+                    this.togglePause();
+                };
+                TimeComponent.prototype.tick = function () {
+                    if (!this.isPaused) {
+                        this.buttonLabel = 'Detener';
+                    }
+                    if (--this.segundos < 0) {
+                        this.segundos = 59;
+                        if (--this.minutos < 0) {
+                            this.resetTest();
+                        }
+                    }
+                };
+                TimeComponent.prototype.togglePause = function () {
+                    this.isPaused = !this.isPaused;
+                    if (this.minutos < 24 || this.segundos < 59) {
+                        this.buttonLabel = this.isPaused ? 'Reanudar' : 'Detener';
+                    }
+                };
                 TimeComponent = __decorate([
                     core_1.Component({
                         selector: 'timer',
-                        template: '<h1>{{minutos}}:{{segundos}} </h1>'
+                        template: "<h1>{{minutos}}:{{segundos | number: '2.0' }} </h1> <p><button (click)='togglePause()'>{{buttonLabel}}</button></p>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TimeComponent);
